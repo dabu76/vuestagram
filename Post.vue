@@ -1,13 +1,19 @@
 <template>
-  <div class="post">
+  <div v-for="(item, i) in insData" :key="i" class="post">
     <div class="post-header">
       <div class="profile"></div>
-      <span class="profile-name">{{ insData[2].name }}</span>
+      <span class="profile-name">{{ item.name }}</span>
     </div>
-    <div class="post-body"></div>
+    <div
+      class="post-body"
+      :style="{ backgroundImage: `url(${item.postImage}) ` }"
+    ></div>
     <div class="post-content">
-      <p>43 Likes</p>
-      <p><strong>글쓴이아이디</strong> 임시내용</p>
+      <p>いいね {{ item.likes }}</p>
+      <p>
+        <strong>{{ item.name }}</strong>
+        {{ item.content }}
+      </p>
       <p class="date">May 15</p>
     </div>
   </div>

@@ -1,8 +1,6 @@
 <template>
   <div>
     <Post :insData="insData" />
-    <Post :insData="insData" />
-    <Post :insData="insData" />
   </div>
 </template>
 
