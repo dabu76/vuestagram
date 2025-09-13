@@ -10,6 +10,7 @@
   </div>
 
   <Container :insData="insData" />
+  <button @click="more">詳しく見る</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
@@ -22,15 +23,36 @@
 <script>
 import Container from "./components/Container.vue";
 import data from "./assets/data";
+import axios from "axios";
 export default {
   name: "App",
   data() {
     return {
       insData: data,
+      count: 0,
     };
   },
   components: {
     Container,
+  },
+  methods: {
+    more() {
+      if (this.count < 1) {
+        axios
+          .get("https://codingapple1.github.io/vue/more0.json")
+          .then((result) => {
+            this.insData.push(result.data);
+            this.count = 1;
+          });
+      } else {
+        axios
+          .get("https://codingapple1.github.io/vue/more1.json")
+          .then((result) => {
+            this.insData.push(result.data);
+            this.count = 1;
+          });
+      }
+    },
   },
 };
 </script>
