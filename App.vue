@@ -9,7 +9,7 @@
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <Container :insData="insData" />
+  <Container :insData="insData" :step="step" />
   <button @click="more">詳しく見る</button>
 
   <div class="footer">
@@ -18,6 +18,13 @@
       <label for="file" class="input-plus">+</label>
     </ul>
   </div>
+  <!-- <div v-if="step == 1">内容</div>
+
+  <div v-if="step == 2">内容2</div>
+  <div v-if="step == 3">内容3</div>
+  <button @click="show(1)">ボタン1</button>
+  <button @click="show(2)">ボタン2</button>
+  <button @click="show(3)">ボタン3</button> -->
 </template>
 
 <script>
@@ -30,12 +37,16 @@ export default {
     return {
       insData: data,
       count: 0,
+      step: 0,
     };
   },
   components: {
     Container,
   },
   methods: {
+    // show(a) {
+    //   this.step = a;
+    // },
     more() {
       if (this.count < 1) {
         axios
@@ -133,5 +144,11 @@ ul {
   position: relative;
   border-right: 1px solid #eee;
   border-left: 1px solid #eee;
+}
+.block {
+  display: none;
+}
+.show {
+  display: block;
 }
 </style>
