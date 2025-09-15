@@ -2,7 +2,10 @@
   <div>
     <Post v-if="step === 0" :insData="insData" />
     <div v-if="step === 1">
-      <div class="upload-image"></div>
+      <div
+        class="upload-image"
+        :style="{ backgroundImage: `url(${file})` }"
+      ></div>
       <div class="filters">
         <div class="filter-1"></div>
         <div class="filter-1"></div>
@@ -12,7 +15,10 @@
       </div>
     </div>
     <div v-if="step === 2">
-      <div class="upload-image"></div>
+      <div
+        class="upload-image"
+        :style="{ backgroundImage: `url(${file})` }"
+      ></div>
       <div class="write">
         <textarea class="write-box">write!</textarea>
       </div>
@@ -27,6 +33,7 @@ export default {
   props: {
     insData: Array,
     step: Number,
+    file: FileList,
   },
   components: {
     Post,

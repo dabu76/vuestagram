@@ -9,12 +9,19 @@
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <Container :insData="insData" :step="step" />
+  <Container :insData="insData" :step="step" :file="file" />
   <button @click="more">詳しく見る</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
-      <input type="file" id="file" class="inputfile" />
+      <input
+        @change="upload"
+        multiple
+        accept="image/*"
+        type="file"
+        id="file"
+        class="inputfile"
+      />
       <label for="file" class="input-plus">+</label>
     </ul>
   </div>
@@ -38,6 +45,7 @@ export default {
       insData: data,
       count: 0,
       step: 0,
+      file: "",
     };
   },
   components: {
@@ -47,6 +55,13 @@ export default {
     // show(a) {
     //   this.step = a;
     // },
+    upload(e) {
+      const files = e.target.files;
+      if (!files || !files.length) return;
+      const blob = files[0];
+      this.file = URL.createObjectURL(blob); // blob:http... 문자열
+      this.step++;
+    },
     more() {
       if (this.count < 1) {
         axios
