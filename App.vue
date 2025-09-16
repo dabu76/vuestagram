@@ -1,15 +1,21 @@
 <template>
   <div class="header">
     <ul class="header-button-left">
-      <li>Cancel</li>
+      <li @click="step--">Cancel</li>
     </ul>
     <ul class="header-button-right">
-      <li>Next</li>
+      <li v-if="step === 1" @click="step++">Next</li>
+      <li v-if="step === 2" @click="publish">発行</li>
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
 
-  <Container :insData="insData" :step="step" :file="file" />
+  <Container
+    :insData="insData"
+    :step="step"
+    :file="file"
+    @send="postText = $event"
+  />
   <button @click="more">詳しく見る</button>
 
   <div class="footer">
@@ -46,6 +52,7 @@ export default {
       count: 0,
       step: 0,
       file: "",
+      postText: "",
     };
   },
   components: {
@@ -59,7 +66,7 @@ export default {
       const files = e.target.files;
       if (!files || !files.length) return;
       const blob = files[0];
-      this.file = URL.createObjectURL(blob); // blob:http... 문자열
+      this.file = URL.createObjectURL(blob);
       this.step++;
     },
     more() {
@@ -78,6 +85,20 @@ export default {
             this.count = 1;
           });
       }
+    },
+    publish() {
+      const content = {
+        name: "Kim Hyun",
+        userImage: "https://picsum.photos/100?random=3",
+        postImage: this.file,
+        likes: 36,
+        date: "May 15",
+        liked: false,
+        content: this.postText,
+        filter: "",
+      };
+      this.insData.unshift(content);
+      this.step = 0;
     },
   },
 };

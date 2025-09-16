@@ -20,7 +20,9 @@
         :style="{ backgroundImage: `url(${file})` }"
       ></div>
       <div class="write">
-        <textarea class="write-box">write!</textarea>
+        <textarea v-model="text" @input="$emit('send', text)" class="write-box">
+write!</textarea
+        >
       </div>
     </div>
   </div>
@@ -30,10 +32,20 @@
 import Post from "./Post.vue";
 export default {
   name: "ContainerPage",
+  data() {
+    return {
+      text: "",
+    };
+  },
+  methods: {
+    send() {
+      this.$emit("send", this.text);
+    },
+  },
   props: {
     insData: Array,
     step: Number,
-    file: FileList,
+    file: String,
   },
   components: {
     Post,
