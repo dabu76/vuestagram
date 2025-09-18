@@ -7,11 +7,14 @@
         :style="{ backgroundImage: `url(${file})` }"
       ></div>
       <div class="filters">
-        <div class="filter-1"></div>
-        <div class="filter-1"></div>
-        <div class="filter-1"></div>
-        <div class="filter-1"></div>
-        <div class="filter-1"></div>
+        <FilterBox
+          v-for="filterName in filters"
+          :key="filterName"
+          :file="file"
+          :filter="filterName"
+        >
+          <span>{{ filterName }}</span>
+        </FilterBox>
       </div>
     </div>
     <div v-if="step === 2">
@@ -30,11 +33,41 @@ write!</textarea
 
 <script>
 import Post from "./Post.vue";
+import FilterBox from "./FilterBox.vue";
+
 export default {
   name: "ContainerPage",
   data() {
     return {
       text: "",
+      filters: [
+        "aden",
+        "_1977",
+        "brannan",
+        "brooklyn",
+        "clarendon",
+        "earlybird",
+        "gingham",
+        "hudson",
+        "inkwell",
+        "kelvin",
+        "lark",
+        "lofi",
+        "maven",
+        "mayfair",
+        "moon",
+        "nashville",
+        "perpetua",
+        "reyes",
+        "rise",
+        "slumber",
+        "stinson",
+        "toaster",
+        "valencia",
+        "walden",
+        "willow",
+        "xpro2",
+      ],
     };
   },
   methods: {
@@ -48,6 +81,7 @@ export default {
     file: String,
   },
   components: {
+    FilterBox,
     Post,
   },
 };
