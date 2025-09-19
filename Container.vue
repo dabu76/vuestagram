@@ -1,9 +1,9 @@
 <template>
   <div>
-    <Post v-if="step === 0" :insData="insData" />
+    <Post v-if="step === 0" :insData="insData" :filtered="filtered" />
     <div v-if="step === 1">
       <div
-        class="upload-image"
+        :class="`upload-image ${filtered}`"
         :style="{ backgroundImage: `url(${file})` }"
       ></div>
       <div class="filters">
@@ -79,6 +79,7 @@ export default {
     insData: Array,
     step: Number,
     file: String,
+    filtered: String,
   },
   components: {
     FilterBox,

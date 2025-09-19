@@ -14,6 +14,7 @@
     :insData="insData"
     :step="step"
     :file="file"
+    :filtered="filtered"
     @send="postText = $event"
   />
   <button @click="more">詳しく見る</button>
@@ -53,10 +54,16 @@ export default {
       step: 0,
       file: "",
       postText: "",
+      filtered: "",
     };
   },
   components: {
     Container,
+  },
+  mounted() {
+    this.emitter.on("filtered", (filtered) => {
+      this.filtered = filtered;
+    });
   },
   methods: {
     // show(a) {

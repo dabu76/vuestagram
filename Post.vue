@@ -5,7 +5,7 @@
       <span class="profile-name">{{ item.name }}</span>
     </div>
     <div
-      class="post-body"
+      :class="`post-body  ${filtered}`"
       :style="{ backgroundImage: `url(${item.postImage}) ` }"
     ></div>
     <div class="post-content">
@@ -23,7 +23,8 @@
 export default {
   name: "PostPage",
   props: {
-    insData: Object,
+    insData: Array,
+    filtered: String,
   },
   components: {},
 };

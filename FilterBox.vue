@@ -2,6 +2,7 @@
   <div
     :class="`filter-item ${filter}`"
     :style="`background-image:url(${file})`"
+    @click="fire(filter)"
   >
     <slot></slot>
   </div>
@@ -10,6 +11,11 @@
 <script>
 export default {
   name: "FilterBox",
+  methods: {
+    fire(filtered) {
+      this.emitter.emit("filtered", filtered);
+    },
+  },
   data() {
     return {
       text: "",
