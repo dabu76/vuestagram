@@ -9,7 +9,8 @@
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
-
+  <h4>Hi {{ $store.state.name }}</h4>
+  <button @click="$store.state.name = 'park'">change</button>
   <Container
     :insData="insData"
     :step="step"
