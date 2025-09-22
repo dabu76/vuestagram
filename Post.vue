@@ -7,9 +7,10 @@
     <div
       :class="`post-body  ${filtered}`"
       :style="{ backgroundImage: `url(${item.postImage}) ` }"
+      @click="$store.commit('likePlus')"
     ></div>
     <div class="post-content">
-      <p>いいね {{ item.likes }}</p>
+      <p>いいね {{ item.likes + $store.state.like }}</p>
       <p>
         <strong>{{ item.name }}</strong>
         {{ item.content }}

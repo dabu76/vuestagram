@@ -9,8 +9,11 @@
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
-  <h4>Hi {{ $store.state.name }}</h4>
-  <button @click="$store.state.name = 'park'">change</button>
+  <h4>Hi {{ $store.state.name }} {{ $store.state.age }}</h4>
+
+  <button @click="$store.commit('nameChange')">change</button>
+  <button @click="$store.commit('ageChange')">change</button>
+
   <Container
     :insData="insData"
     :step="step"
