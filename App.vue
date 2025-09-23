@@ -11,6 +11,9 @@
   </div>
   <h4>Hi {{ $store.state.name }} {{ $store.state.age }}</h4>
 
+  <p>{{ $store.state.more }}</p>
+  <button @click="$store.dispatch('getData')">もっと見る</button>
+
   <button @click="$store.commit('nameChange')">change</button>
   <button @click="$store.commit('ageChange')">change</button>
 

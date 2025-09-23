@@ -1,31 +1,50 @@
 import { createStore } from "vuex";
+import raw from "@/assets/data.js";
+import axios from "axios";
 
-const store = createStore({
+const withIds = raw.map((it, idx) => ({
+  ...it,
+  id: idx + 1,
+  liked: !!it.liked,
+}));
+
+export default createStore({
   state() {
     return {
-      name: "kim",
-      age: 20,
-      like: 0,
-      likeCheck: false,
+      posts: withIds,
+      filtered: "",
+      more: {},
     };
   },
+  getters: {
+    posts: (s) => s.posts,
+    isLiked: (s) => (id) => s.posts.find((p) => p.id === id)?.liked ?? false,
+    likeCount: (s) => (id) => {
+      const p = s.posts.find((p) => p.id === id);
+      return p ? p.likes : 0;
+    },
+  },
   mutations: {
-    nameChange(state) {
-      state.name = "park";
+    setMore(state, data) {
+      state.more = { data };
     },
-    ageChange(state) {
-      state.age++;
+    setFilter(s, f) {
+      s.filtered = f;
     },
-    likePlus(state) {
-      if (state.likeCheck === false) {
-        state.like++;
-        state.likeCheck = true;
-      } else if (state.likeCheck === true) {
-        state.like--;
-        state.likeCheck = false;
-      }
+    toggleLike(s, id) {
+      s.posts = s.posts.map((p) => {
+        if (p.id !== id) return p;
+        const nextLiked = !p.liked;
+        const delta = nextLiked ? 1 : -1;
+        return { ...p, liked: nextLiked, likes: p.likes + delta };
+      });
+    },
+  },
+  actions: {
+    getData(context) {
+      axios.get("https://codingapple1.github.io/vue/more0.json").then((a) => {
+        context.commit("setMore", a.data);
+      });
     },
   },
 });
-
-export default store;

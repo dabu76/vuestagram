@@ -1,33 +1,44 @@
 <template>
-  <div v-for="(item, i) in insData" :key="i" class="post">
+  <div v-for="item in posts" :key="item.id" class="post">
     <div class="post-header">
-      <div class="profile"></div>
+      <div
+        class="profile"
+        :style="{ backgroundImage: `url(${item.userImage})` }"
+      ></div>
       <span class="profile-name">{{ item.name }}</span>
     </div>
+
     <div
-      :class="`post-body  ${filtered}`"
-      :style="{ backgroundImage: `url(${item.postImage}) ` }"
-      @click="$store.commit('likePlus')"
+      :class="['post-body', filtered, { liked: isLiked(item.id) }]"
+      :style="{ backgroundImage: `url(${item.postImage})` }"
+      @click="toggle(item.id)"
     ></div>
+
     <div class="post-content">
-      <p>いいね {{ item.likes + $store.state.like }}</p>
+      <p>いいね {{ likeCount(item.id) }}</p>
       <p>
-        <strong>{{ item.name }}</strong>
-        {{ item.content }}
+        <strong>{{ item.name }}</strong> {{ item.content }}
       </p>
-      <p class="date">May 15</p>
+      <p class="date">{{ item.date || "May 15" }}</p>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapMutations, mapState } from "vuex";
+
 export default {
   name: "PostPage",
-  props: {
-    insData: Array,
-    filtered: String,
+  computed: {
+    ...mapState(["filtered"]),
+    ...mapGetters(["posts", "isLiked", "likeCount"]),
   },
-  components: {},
+  methods: {
+    ...mapMutations(["toggleLike"]),
+    toggle(id) {
+      this.toggleLike(id);
+    },
+  },
 };
 </script>
 
@@ -36,7 +47,6 @@ export default {
   width: 100%;
 }
 .profile {
-  background-image: url("https://picsum.photos/100?random=0");
   width: 30px;
   height: 30px;
   background-size: 100%;
@@ -55,19 +65,21 @@ export default {
   padding: 10px;
 }
 .post-body {
-  background-image: url("https://picsum.photos/600?random=0");
   height: 450px;
   background-position: center;
   background-size: cover;
+  cursor: pointer;
 }
 .post-content {
-  padding-left: 15px;
-  padding-right: 15px;
+  padding: 0 15px;
   font-size: 14px;
 }
 .date {
   font-size: 11px;
   color: grey;
   margin-top: -8px;
+}
+.liked {
+  outline: 2px solid hotpink;
 }
 </style>
