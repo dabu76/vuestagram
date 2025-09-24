@@ -9,7 +9,7 @@
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
-  <h4>Hi {{ $store.state.name }} {{ $store.state.age }}</h4>
+  <h4>Hi {{ name }} {{ $store.state.age }}</h4>
 
   <p>{{ $store.state.more }}</p>
   <button @click="$store.dispatch('getData')">もっと見る</button>
@@ -46,12 +46,15 @@
   <button @click="show(1)">ボタン1</button>
   <button @click="show(2)">ボタン2</button>
   <button @click="show(3)">ボタン3</button> -->
+  <!-- <p>{{ now2 }}{{ counter }}</p>
+  <button @click="counter++">ボタン</button> -->
 </template>
 
 <script>
 import Container from "./components/Container.vue";
 import data from "./assets/data";
 import axios from "axios";
+import { mapMutations, mapState } from "vuex";
 export default {
   name: "App",
   data() {
@@ -62,10 +65,18 @@ export default {
       file: "",
       postText: "",
       filtered: "",
+      counter: 0,
     };
   },
   components: {
     Container,
+  },
+  computed: {
+    name() {
+      return this.$store.state.name;
+    },
+    ...mapState(["name", "age", "likes"]),
+    ...mapState({ 作名: "name" }),
   },
   mounted() {
     this.emitter.on("filtered", (filtered) => {
@@ -73,6 +84,10 @@ export default {
     });
   },
   methods: {
+    ...mapMutations(["setMore", "いいね"]),
+    now() {
+      return new Date();
+    },
     // show(a) {
     //   this.step = a;
     // },

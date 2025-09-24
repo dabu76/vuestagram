@@ -1,8 +1,8 @@
 import { createStore } from "vuex";
-import raw from "@/assets/data.js";
 import axios from "axios";
+import raw from "@/assets/data.js";
 
-const withIds = raw.map((it, idx) => ({
+const withIds = (Array.isArray(raw) ? raw : []).map((it, idx) => ({
   ...it,
   id: idx + 1,
   liked: !!it.liked,
@@ -11,40 +11,61 @@ const withIds = raw.map((it, idx) => ({
 export default createStore({
   state() {
     return {
+      name: "kim",
+      age: 20,
+
       posts: withIds,
       filtered: "",
-      more: {},
+      more: [],
     };
   },
+
   getters: {
     posts: (s) => s.posts,
+    filtered: (s) => s.filtered,
+    more: (s) => s.more,
+
     isLiked: (s) => (id) => s.posts.find((p) => p.id === id)?.liked ?? false,
-    likeCount: (s) => (id) => {
-      const p = s.posts.find((p) => p.id === id);
-      return p ? p.likes : 0;
-    },
+
+    likeCount: (s) => (id) => s.posts.find((p) => p.id === id)?.likes ?? 0,
   },
+
   mutations: {
-    setMore(state, data) {
-      state.more = { data };
+    nameChange(state) {
+      state.name = "park";
     },
-    setFilter(s, f) {
-      s.filtered = f;
+    ageChange(state) {
+      state.age++;
     },
-    toggleLike(s, id) {
-      s.posts = s.posts.map((p) => {
+
+    setMore(state, payload) {
+      state.more = Array.isArray(payload) ? payload : [payload];
+    },
+
+    setFilter(state, filter) {
+      state.filtered = filter;
+    },
+
+    toggleLike(state, id) {
+      state.posts = state.posts.map((p) => {
         if (p.id !== id) return p;
         const nextLiked = !p.liked;
         const delta = nextLiked ? 1 : -1;
         return { ...p, liked: nextLiked, likes: p.likes + delta };
       });
     },
+
+    unshiftPost(state, post) {
+      state.posts = [post, ...state.posts];
+    },
   },
+
   actions: {
-    getData(context) {
-      axios.get("https://codingapple1.github.io/vue/more0.json").then((a) => {
-        context.commit("setMore", a.data);
-      });
+    async getData({ commit }) {
+      const { data } = await axios.get(
+        "https://codingapple1.github.io/vue/more0.json"
+      );
+      commit("setMore", data);
     },
   },
 });
