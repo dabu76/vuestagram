@@ -61,7 +61,7 @@ export default {
     return {
       insData: data,
       count: 0,
-      step: 0,
+      step: 3,
       file: "",
       postText: "",
       filtered: "",
